@@ -2,7 +2,6 @@ import * as escodegen from "escodegen";
 import * as espree from "espree";
 import * as estraverse from "estraverse";
 import * as fs from "fs";
-import * as commander from "commander";
 
 export async function transpile(inputFile, outputFile) {
   let input = fs.readFileSync(inputFile);
@@ -16,7 +15,7 @@ export async function transpile(inputFile, outputFile) {
   }
 }
 
-export function addLogging(code) {
+function addLogging(code) {
   const ast = espree.parse(code, {ecmaVersion: 12, loc: true});
   estraverse.traverse(ast, {
       enter: function(node, parent) {
@@ -47,13 +46,3 @@ function addBeforeCode(node) {
   const beforeNodes = espree.parse(beforeCode, {ecmaVersion: 12, loc: true}).body;
   node.body.body = beforeNodes.concat(node.body.body);
 }
-
-const program = new commander.Command();
-program
-  .name('logging-espree')
-  .argument('<filename>')
-  .version('0.1.0')
-  .option('-o, --output <filename>', 'specify the output file');
-program.parse();
-
-transpile(program.args[0], program.opts().output);
