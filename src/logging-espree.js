@@ -1,16 +1,59 @@
 import * as escodegen from "escodegen";
 import * as espree from "espree";
 import * as estraverse from "estraverse";
-import * as fs from "fs/promises";
+import * as fs from "fs";
+import * as commander from "commander";
 
 export async function transpile(inputFile, outputFile) {
-  // Fill in the code here
+  let input = fs.readFileSync(inputFile);
+  console.log('\ninput:\n' + input + '\n\n---');
+
+  let result = addLogging(input);
+
+  if (outputFile != undefined) {
+    fs.writeFileSync(outputFile, result);
+    console.log('Output in file \'' + outputFile + '\'\n');
+  }
 }
 
 export function addLogging(code) {
-  // Fill in the code here
+  const ast = espree.parse(code, {ecmaVersion: 12, loc: true});
+  estraverse.traverse(ast, {
+      enter: function(node, parent) {
+          if (node.type === 'FunctionDeclaration' ||
+              node.type === 'FunctionExpression'  ||
+              node.type === 'ArrowFunctionExpression') {
+              addBeforeCode(node);
+          }
+      }
+  });
+  return escodegen.generate(ast);
 }
 
 function addBeforeCode(node) {
- // Fill in the code here
+  const name = node.id ? node.id.name : '<anonymous function>';
+  let args = [];
+  for (let parameter of node.params) {
+    args.push(parameter.name);
+  }
+  let beforeCode = "console.log(\`Entering " + name + "(";
+  for (let [index, value] of args.entries()) {
+    if (index != 0) {
+      beforeCode += ", ";
+    }
+    beforeCode += "${ " + value + " }";
+  }
+  beforeCode += ") at line " + node.loc.start.line + "\`);";
+  const beforeNodes = espree.parse(beforeCode, {ecmaVersion: 12, loc: true}).body;
+  node.body.body = beforeNodes.concat(node.body.body);
 }
+
+const program = new commander.Command();
+program
+  .name('logging-espree')
+  .argument('<filename>')
+  .version('0.1.0')
+  .option('-o, --output <filename>', 'specify the output file');
+program.parse();
+
+transpile(program.args[0], program.opts().output);
