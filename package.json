@@ -1,19 +1,9 @@
 {
-    "name": "@alu0101329888pl/constant-folding",
+    "name": "@alu0101329888pl/espree-logging",
     "author": "Edwin Plasencia Hernández <alu0101329888@ull.edu.es> (https://github.com/alu0101329888)",
     "description": "Adds logs to javascript code",
     "type": "module",
-    "exports": {
-      ".": [
-        {
-          "import": "./src/logging-espree.js",
-          "require": "./src/logging-espree.js",
-          "default": "./src/logging-espree.js"
-        },
-        "./src/logging-espree.js"
-      ],
-      "./package.json": "./package.json"
-    },
+    "exports": "./src/logging-espree.js",
     "bin": {
         "funlog": "bin/log.js"
     },
@@ -28,7 +18,7 @@
         "estraverse": "^5.2.0",
         "underscore": "^1.12.0"
     },
-    "version": "0.3.1",
+    "version": "0.1.0",
     "devDependencies": {
         "mocha": "^10.2.0"
     }
