@@ -20,10 +20,10 @@ jobs: # jobs are made of steps
         node-version: [12.x, 14.x]
 
     steps: # See https://github.com/actions/checkout
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     # Example of using an environment variable
     - name: Use Node.js ${{ matrix.node-version }} # Will be: "Use Node.js 12.x"
-      uses: actions/setup-node@v3 # See https://github.com/actions/setup-node
+      uses: actions/setup-node@v1 # See https://github.com/actions/setup-node
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm test
