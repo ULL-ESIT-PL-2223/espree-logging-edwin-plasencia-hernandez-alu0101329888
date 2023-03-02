@@ -15,7 +15,7 @@ export async function transpile(inputFile, outputFile) {
   }
 }
 
-function addLogging(code) {
+export function addLogging(code) {
   const ast = espree.parse(code, {ecmaVersion: 12, loc: true});
   estraverse.traverse(ast, {
       enter: function(node, parent) {
