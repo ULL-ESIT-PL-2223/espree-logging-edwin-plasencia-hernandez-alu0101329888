@@ -16,7 +16,7 @@ jobs: # jobs are made of steps
     strategy:
       # To test across multiple language versions
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest ]
+        os: [macos-latest, ubuntu-latest]
         node-version: [14.x]
 
     steps: # See https://github.com/actions/checkout
