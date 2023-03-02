@@ -26,6 +26,6 @@ jobs: # jobs are made of steps
       uses: actions/setup-node@v3 # See https://github.com/actions/setup-node
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm test
+    - run: npm install && npm test
       env:
         CI: true
