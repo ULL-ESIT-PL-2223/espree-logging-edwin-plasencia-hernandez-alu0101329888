@@ -2,7 +2,7 @@
 
 ## Resumen de lo aprendido
 
-...
+En esta práctica aprendemos cómo son los AST en detalle, aprendemos a usar Commander para realizar menús simples y realizamos tests y estudios de covering además de familiarizarnos con Github Actions
 
 ## Retos
 ### Argumentos
